@@ -1,6 +1,6 @@
 # Decisiones técnicas
 
-> Documenta brevemente las decisiones que tomaste resolviendo el examen. No copies del enunciado: explica con tus palabras qué hiciste y por qué. La intención es que el profesor entienda tu razonamiento, no que repitas el problema.
+> Documenten brevemente las decisiones que tomaron resolviendo el examen. No copien del enunciado: expliquen con sus palabras qué hicieron y por qué. La intención es que al revisar pueda entender el razonamiento, no que repitan el problema.
 
 ---
 

@@ -5,11 +5,20 @@
 
 ## Bienvenida
 
-¡Bienvenido al equipo de **HotelBook**! Acabas de incorporarte como **desarrollador junior**. Tu equipo anterior dejó el sistema con varios bugs, mensajería mal configurada, una race condition, falta de idempotencia y un servicio sin terminar.
+¡Bienvenidos al equipo de **HotelBook**! Acaban de incorporarse como **desarrolladores junior**. El equipo anterior dejó el sistema con varios bugs, mensajería mal configurada, una race condition, falta de idempotencia y un servicio sin terminar.
 
-Tu trabajo durante las próximas ~36 horas: **diagnosticar, arreglar y completar** el sistema, y entregar evidencia de que funciona end-to-end.
+Su trabajo durante las próximas ~36 horas: **diagnosticar, arreglar y completar** el sistema, y entregar evidencia de que funciona end-to-end.
 
-Antes de empezar, **lee `INSTRUCCIONES.md`**. Ahí está la lista completa de tareas, divididas en tiers, con pistas claras sobre dónde buscar.
+Antes de empezar, **lean `INSTRUCCIONES.md`**. Ahí está la lista completa de tareas, divididas en tiers, con pistas claras sobre dónde buscar.
+
+## Trabajo en parejas
+
+Este examen se entrega **en parejas (2 personas)**. Antes de empezar a tocar código:
+
+1. Llenen `INTEGRANTES.md` con sus nombres completos, matrículas y correos.
+2. Acuerden cómo se van a dividir el trabajo (por servicio, por tier, por tipo de bug, como prefieran).
+3. Vayan documentando en `INTEGRANTES.md` qué hizo cada quien — esto es parte de la calificación.
+4. **Ambos integrantes deben hacer commits con su propio usuario de Git**. Una entrega donde el 100% de los commits son de una sola persona pierde puntos.
 
 ## Arquitectura actual (rota)
 
@@ -78,33 +87,33 @@ curl -X POST http://localhost:8000/bookings \
 
 UI de RabbitMQ en `http://localhost:15672` (usuario: `guest`, password: `guest`).
 
-## ¿Por dónde empiezo?
+## ¿Por dónde empiezan?
 
-1. Lee este archivo (ya lo estás haciendo, ¡bien!)
-2. **Lee `INSTRUCCIONES.md` completo**
-3. Levanta el sistema con `docker compose up --build`
-4. Haz un POST de prueba con curl y observa qué pasa (o qué NO pasa)
-5. Atacar **Tier 1** primero — son bugs fáciles con pistas claras
-6. Pasar a **Tier 2** cuando todo lo de Tier 1 funcione
-7. Si te queda tiempo, **Tier 3** para puntos bonus
-8. Llenar `evidence/`, `PROMPTS.md`, `DECISIONES.md`
-9. Hacer el quiz teórico (te paso el link en Moodle) y guardar el reporte JSON
-10. Push final + sube link de tu fork a Moodle
+1. Lean este archivo (ya lo están haciendo, ¡bien!)
+2. **Llenen `INTEGRANTES.md`** antes de cualquier otra cosa
+3. **Lean `INSTRUCCIONES.md` completo**
+4. Levanten el sistema con `docker compose up --build`
+5. Hagan un POST de prueba con curl y observen qué pasa (o qué NO pasa)
+6. Ataquen **Tier 1** primero — son bugs con pistas claras
+7. Pasen a **Tier 2** cuando todo lo de Tier 1 funcione
+8. Si les queda tiempo, **Tier 3** para puntos bonus
+9. Llenen `evidence/`, `PROMPTS.md`, `DECISIONES.md`, `INTEGRANTES.md`
+10. Push final + suban el link de su fork a Moodle
 
 ## Reglas
 
 - **Hacer fork público** del repositorio del examen
 - **Commits frecuentes y descriptivos** (no `wip`, no `fix`, no `cambios`)
-- Si usas IA (Claude/ChatGPT/Copilot): **debes declararlo en `PROMPTS.md`**. No hacerlo y que se detecte = penalización
-- **No copiar** entre compañeros (los commits dejan rastro)
-- Entrega: **link de tu fork público en Moodle antes del jueves 23:59**
+- **Ambos integrantes** deben hacer commits con su propia identidad de Git
+- Si usan IA (Claude/ChatGPT/Copilot): **deben declararlo en `PROMPTS.md`**. No hacerlo y que se detecte = penalización
+- **No copiar** entre parejas distintas (los commits dejan rastro)
+- Entrega: **link del fork público en Moodle antes del jueves 23:59**
 
 ## Calificación
 
 Ver `RUBRICA.md`. Resumen:
 
-- **60 pts** — Código (Tier 1: 40, Tier 2: 15, Tier 3 bonus: 5)
-- **20 pts** — Commits + evidencia
-- **20 pts** — Quiz LLM teórico
+- **70 pts** — Código (Tier 1: 45, Tier 2: 20, Tier 3 bonus: 5)
+- **30 pts** — Commits + evidencia + INTEGRANTES.md + DECISIONES.md + PROMPTS.md
 
-¡Mucho éxito! El examen está calibrado para que con esfuerzo razonable saques una buena nota.
+¡Mucho éxito! El examen está calibrado para que con esfuerzo razonable la pareja saque una buena nota.

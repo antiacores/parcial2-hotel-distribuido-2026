@@ -5,7 +5,7 @@ ESTE SERVICIO ESTÁ INCOMPLETO. Tu trabajo es resolver los TODOs de abajo.
 El servicio debe consumir eventos `payment.completed` y `payment.failed` del
 exchange `hotel`, y por cada uno loggear de forma estructurada el "envío" de
 la notificación. No se manda email real: solo se loggea con un formato
-específico que el profesor evaluará.
+específico que se evalúa.
 
 Formato del log esperado:
 [NOTIFICATION] booking_id=<id> event=PAYMENT_COMPLETED guest=<name> channel=email status=SENT

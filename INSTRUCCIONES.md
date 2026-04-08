@@ -2,15 +2,25 @@
 
 ## Contexto
 
-Eres el nuevo desarrollador junior del equipo HotelBook. El sistema actual tiene **7 bugs sembrados** y un **servicio sin terminar**. Tu trabajo: arreglarlos y completarlo. Tienes hasta el jueves 2026-04-09 a las 23:59.
+Son los nuevos desarrolladores junior del equipo HotelBook. El sistema actual tiene **7 bugs sembrados** y un **servicio sin terminar**. Su trabajo: arreglarlos y completarlo. Tienen hasta el jueves 2026-04-09 a las 23:59.
 
-Cada bug está marcado en el código fuente con un comentario `# BUG:` que te dice qué está mal. **No tienes que adivinar** — tienes que entender por qué está mal y arreglarlo correctamente.
+Cada bug está marcado en el código fuente con un comentario `# BUG:` que les dice qué está mal. **No tienen que adivinar** — tienen que entender por qué está mal y arreglarlo correctamente.
+
+## Trabajo en parejas
+
+Este examen se hace **en parejas (2 personas)**. Lo primero que deben hacer al arrancar es llenar `INTEGRANTES.md` con:
+
+- Nombres completos, matrículas y correos de ambos
+- Cómo se van a dividir el trabajo (por servicio, por tier, etc.)
+- A medida que avancen, qué hizo cada quien (tabla por bug / archivo)
+
+Ambos integrantes **deben** hacer commits con su propia identidad de Git. Si todos los commits los hace una sola persona, pierden los puntos asignados a `INTEGRANTES.md` y se aplica penalización por colaboración no balanceada.
 
 ---
 
-## Tier 1 — Imprescindible (40 pts)
+## Tier 1 — Imprescindible (45 pts)
 
-Estos son los arreglos básicos. Con esfuerzo razonable, debe tomarte ~4 horas en total.
+Estos son los arreglos básicos. Con esfuerzo razonable, deben tomarles ~4 horas en total entre los dos.
 
 ### B1 — Routing key incorrecto en `booking-api` (5 pts)
 **Archivo:** `booking-api/app/rabbitmq.py`
@@ -102,7 +112,7 @@ El servicio existe pero NO está declarado en el `docker-compose.yml`. Agrégalo
 
 ---
 
-### Verificar el flujo end-to-end (4 pts)
+### Verificar el flujo end-to-end (8 pts)
 
 Una vez arreglados los bugs anteriores, este comando debe funcionar y producir efectos en cadena:
 
@@ -122,11 +132,11 @@ Y `docker compose logs` debe mostrar:
 
 ---
 
-## Tier 2 — Intermedio (15 pts)
+## Tier 2 — Intermedio (20 pts)
 
 Estos requieren entender más a fondo la mensajería y la persistencia.
 
-### B4 — Lógica de overlap incompleta en `availability-service` (5 pts)
+### B4 — Lógica de overlap incompleta en `availability-service` (7 pts)
 **Archivo:** `availability-service/app/main.py` función `is_room_available`
 
 La función actual solo compara el `check_in` de la nueva reserva contra el `check_in` de las reservas existentes. Eso significa que si ya hay una reserva del 1 al 10 de mayo, una nueva reserva del 5 al 15 de mayo **no es detectada como conflicto**.
@@ -139,7 +149,7 @@ La función actual solo compara el `check_in` de la nueva reserva contra el `che
 
 ---
 
-### B5 — Race condition por falta de `with_for_update()` (5 pts)
+### B5 — Race condition por falta de `with_for_update()` (7 pts)
 **Archivo:** `availability-service/app/main.py`
 
 El consumer hace dos cosas en secuencia: (1) consulta si la habitación está disponible, (2) inserta la reserva. **Sin un lock**, dos consumers concurrentes pueden ver la habitación libre al mismo tiempo y ambos insertar.
@@ -159,7 +169,7 @@ wait
 
 ---
 
-### B7 — `payment-service` no es idempotente (5 pts)
+### B7 — `payment-service` no es idempotente (6 pts)
 **Archivo:** `payment-service/app/main.py`
 
 Si RabbitMQ redeliveres el mismo `booking.confirmed` (porque el consumer crasheó después de cobrar pero antes de hacer ack), el `payment-service` cobra **dos veces**.
@@ -197,21 +207,21 @@ Cualquier combinación de:
 
 ## Lista de verificación final
 
-Antes de hacer tu push final:
+Antes del push final:
 
+- [ ] `INTEGRANTES.md` lleno con nombres, matrículas y división de trabajo
 - [ ] Tier 1 completo
 - [ ] Flujo end-to-end probado y documentado en `evidence/`
 - [ ] Capturas de RabbitMQ Management UI mostrando los exchanges/queues correctos
-- [ ] `evidence/quiz-report.json` (lo generas con el quiz teórico, te paso el link)
-- [ ] `PROMPTS.md` lleno (declara IA si la usaste)
+- [ ] `PROMPTS.md` lleno (declaración de uso de IA)
 - [ ] `DECISIONES.md` lleno
-- [ ] Commits descriptivos en tu historial
-- [ ] Link de tu fork público subido a Moodle
+- [ ] Commits descriptivos de **ambos** integrantes en el historial
+- [ ] Link del fork público subido a Moodle
 
 ## Cómo pedir ayuda
 
-- **Dudas técnicas / pistas adicionales**: durante horas hábiles puedes preguntarme por mensaje. No te voy a resolver el bug, pero sí puedo aclarar si vas en la dirección correcta.
-- **Problemas de Docker**: si Docker no levanta, primero verifica que tienes RAM suficiente y que ningún puerto (5432, 6379, 5672, 15672, 8000) está en uso.
-- **Si te trabas más de 1 hora en un solo bug**: pasa al siguiente y vuelve. No vale la pena bloquear todo el examen por un solo punto.
+- **Dudas técnicas / pistas adicionales**: durante horas hábiles pueden mandar un mensaje pidiendo aclaración. No se les resolverá el bug, pero sí se puede confirmar si van por buen camino.
+- **Problemas de Docker**: si Docker no levanta, primero verifiquen que tienen RAM suficiente y que ningún puerto (5432, 6379, 5672, 15672, 8000) está en uso.
+- **Si se traban más de 1 hora en un solo bug**: pasen al siguiente y vuelvan. No vale la pena bloquear todo el examen por un solo punto.
 
 ¡Mucho éxito!
