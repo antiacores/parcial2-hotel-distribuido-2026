@@ -19,6 +19,14 @@ Como el exchange es de tipo TOPIC, RabbitMQ enruta los mensajes según el routin
 ---
 
 ### B2 — Manejo de error en publish
+**Qué encontré:**
+La llamada a ´publish_booking´ no había ningún manejo de errores, el cliente recibía un ´202 OK´ aunque el evento nunca se había publicado por algún fallo.
+
+**Cómo lo arreglé:**
+Envolví la llamada en un ´try/except´. Para que si hay alguna excepción, devuelva que el servicio no está disponible.
+
+**Por qué esto era un problema:**
+El cliente creía que su reserva había sido aceptada cuando en realidad el broker no tenía ningún evento al respecto, dejando que los demás servicios que dependen de ella se enteraran de la reserva.
 
 ---
 

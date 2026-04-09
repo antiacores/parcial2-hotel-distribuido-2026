@@ -25,7 +25,7 @@
 | Bug / Tarea | Responsable principal | Apoyo |
 |---|---|---|
 | B1 — routing key en booking-api | Antía | - |
-| B2 — manejo de error en publish | | |
+| B2 — manejo de error en publish | Antía | - |
 | B3 — auto_ack en availability-service | | |
 | B4 — overlap de fechas | | |
 | B5 — race condition con `with_for_update()` | | |
