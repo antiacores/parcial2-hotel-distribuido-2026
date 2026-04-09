@@ -4,9 +4,7 @@ import json
 import logging
 import os
 from datetime import date
-
 import pika
-
 from .db import SessionLocal, init_db
 from .models import Booking, Room
 
@@ -37,17 +35,26 @@ def find_available_room(room_type: str, check_in: date, check_out: date) -> Room
             # Si dos consumers leen al mismo tiempo, ambos pueden ver la
             # habitación libre y ambos insertan una reserva. El patrón correcto
             # es bloquear las filas relevantes dentro de la transacción.
+
+
+        # FIX B4 — Se corrige la lógica de overlap usando:
+        # check_in < check_out AND check_out > check_in para poder detectar superposiciones.
+        # Esto ayudar a evitar todos los casos y se evita que se asignen habitaciones que ya están ocupadas
+
             conflicts = (
                 session.query(Booking)
                 .filter(
                     Booking.room_id == room.id,
                     Booking.status == "CONFIRMED",
-                    Booking.check_in == check_in,  # ← incompleto
+                    Booking.check_in < check_out,
+                    Booking.check_out > check_in,
                 )
                 .all()
             )
+
             if not conflicts:
                 return room
+
         return None
 
 
@@ -59,10 +66,12 @@ def process_booking(payload: dict) -> tuple[bool, str, int | None]:
 
     with SessionLocal() as session:
         room = find_available_room(room_type, check_in, check_out)
+
         if room is None:
             logger.info("Reserva %s rechazada: sin habitaciones %s", booking_id, room_type)
             return False, f"No hay habitaciones {room_type} disponibles", None
 
+      
         booking = Booking(
             booking_id=booking_id,
             room_id=room.id,
@@ -71,8 +80,10 @@ def process_booking(payload: dict) -> tuple[bool, str, int | None]:
             check_out=check_out,
             status="CONFIRMED",
         )
+
         session.add(booking)
         session.commit()
+
         logger.info("Reserva %s confirmada en habitación %s", booking_id, room.room_number)
         return True, "", room.id
 
