@@ -77,6 +77,11 @@ def process_booking(payload: dict) -> tuple[bool, str, int | None]:
         return True, "", room.id
 
 
+
+#Se desactivó auto_ack para evitar la pérdida de mensajes
+#Antes el mensaje era procesado antes de ejecutar el callback
+#El ack ahora se hace manualmente solo si fue exitoso el proceso
+
 def callback(ch, method, properties, body):
     payload = json.loads(body)
     booking_id = payload["booking_id"]
@@ -84,6 +89,7 @@ def callback(ch, method, properties, body):
 
     try:
         success, reason, room_id = process_booking(payload)
+
         if success:
             event = {**payload, "event": "BOOKING_CONFIRMED", "room_id": room_id}
             routing_key = "booking.confirmed"
@@ -97,9 +103,15 @@ def callback(ch, method, properties, body):
             body=json.dumps(event).encode(),
             properties=pika.BasicProperties(content_type="application/json"),
         )
+
         logger.info("Publicado %s para %s", routing_key, booking_id)
+        #ACK manual, solo si fue exitoso
+        ch.basic_ack(delivery_tag=method.delivery_tag)
+
     except Exception as exc:
         logger.error("Error procesando %s: %s", booking_id, exc)
+        #ACK Manual, en caso de error se rechaza el mensaje para no crear incosistencias en la base de datos
+        ch.basic_nack(delivery_tag=method.delivery_tag, requeue=False)
 
 
 def main() -> None:
@@ -118,7 +130,7 @@ def main() -> None:
     channel.basic_consume(
         queue=result.method.queue,
         on_message_callback=callback,
-        auto_ack=True,
+        auto_ack=False,
     )
     logger.info("availability-service esperando booking.requested...")
     channel.start_consuming()
