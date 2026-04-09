@@ -47,6 +47,22 @@ def main() -> None:
     #   [NOTIFICATION] booking_id=<id> event=<EVENT> guest=<name> channel=email status=SENT
     # No olvides hacer ack manual al final del callback (ch.basic_ack).
 
+    def callback(ch, method, properties, body):
+        try:
+            data = json.loads(body)
+            booking_id = data.get("booking_id", "unknown")
+            guest = data.get("guest", "unknown")
+            event = method.routing_key.upper().replace(".", "_") # Convierte 'payment.completed' a 'PAYMENT_COMPLETED'
+
+            logger.info(
+                "[NOTIFICATION] booking_id=%s event=%s guest=%s channel=email status=SENT",
+                booking_id, event, guest
+            )
+            ch.basic_ack(delivery_tag = method.delivery_tag)
+        except Exception as e:
+            logger.error("Error procesando notificación: %s", e)
+            ch.basic_nack(delivery_tag = method.delivery_tag, requeue=True)
+
     # TODO 3: iniciar el consumer con channel.basic_consume(...) usando ack
     # manual y luego channel.start_consuming().
 
