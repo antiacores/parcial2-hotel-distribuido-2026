@@ -37,6 +37,11 @@ def main() -> None:
     # un routing key específico, y puedes hacer dos bindings sobre la misma
     # queue.
 
+    channel.exchange_declare(exchange="hotel", exchange_type="topic", durable=True)
+    channel.queue_declare(queue="notifications", durable=True)
+    channel.queue_bind(exchange="hotel", queue="notifications", routing_key="payment.completed")
+    channel.queue_bind(exchange="hotel", queue="notifications", routing_key="payment.failed")
+
     # TODO 2: implementar el callback que reciba (ch, method, properties, body),
     # parsee el JSON, y loggee con el formato exacto:
     #   [NOTIFICATION] booking_id=<id> event=<EVENT> guest=<name> channel=email status=SENT
