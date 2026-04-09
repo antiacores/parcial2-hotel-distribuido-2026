@@ -4,17 +4,17 @@
 
 ## Integrante 1
 
-- **Nombre completo:**
-- **Matrícula:**
-- **Correo:**
-- **Usuario de Git que va a usar para sus commits:**
+- **Antía Cores Barrón:**
+- **196841:**
+- **antiacores0@gmail.com:**
+- **antiacores:**
 
 ## Integrante 2
 
-- **Nombre completo:**
-- **Matrícula:**
-- **Correo:**
-- **Usuario de Git que va a usar para sus commits:**
+- **Fernando Agustín Hernández Rivas**
+- **195468**
+- **fernandohdezrivas@gmail.com**
+- **fernandoorivas**
 
 ---
 
