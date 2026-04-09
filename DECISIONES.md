@@ -8,10 +8,13 @@
 
 ### B1 — Routing key
 **Qué encontré:**
+El ´booking.api´ usaba el routing key ´booking.create´, pero ´availability-service´ tiene ´booking.requested´.
 
 **Cómo lo arreglé:**
+Cambié el routing key de ´booking.create´ a ´booking.requested´.
 
 **Por qué esto era un problema:**
+Como el exchange es de tipo TOPIC, RabbitMQ enruta los mensajes según el routing key. Si no tienen el mismo key (el publisher y el consumer), el mensaje no llega al consumer.
 
 ---
 
