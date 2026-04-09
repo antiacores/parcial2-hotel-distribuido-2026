@@ -31,6 +31,14 @@ El cliente creía que su reserva había sido aceptada cuando en realidad el brok
 ---
 
 ### B3 — Ack manual
+**Qué encontré:**
+Availability-service utilizaba auto_ack=True, y eso hacía que los mensajes fueran procesados antes de que el callback terminara de ejecutarse.
+
+**Cómo lo arreglé:**
+Desactivé auto_ack e hice el manejo manual de ACK usando basic_ack cuando el procesamiento es exitoso y basic_nack en caso de que falle.
+
+**Por qué esto era un problema:**
+Porque si el servicio fallaba mientras se procesaba, entonces el mensaje ya era considerado como entregado y por lo tanto, se perdía. Generaba inconsistencias en el sistema. Con ACK manual los mensajes solo se confirman cuando fueron procesados correctamente.
 
 ---
 
