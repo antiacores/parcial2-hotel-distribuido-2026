@@ -11,7 +11,6 @@ from .config import settings
 
 logger = logging.getLogger("booking-api.publisher")
 
-
 async def publish_booking(payload: dict) -> None:
     """Publica un evento booking.requested al exchange topic 'hotel'."""
     connection = await aio_pika.connect_robust(settings.rabbitmq_url)
@@ -25,5 +24,5 @@ async def publish_booking(payload: dict) -> None:
             content_type="application/json",
         )
         # BUG: revisa el routing key. El availability-service espera otro nombre.
-        await exchange.publish(message, routing_key="booking.create")
+        await exchange.publish(message, routing_key="booking.requested") # se cambió "created" por "requested"
         logger.info("Evento publicado: booking_id=%s", payload.get("booking_id"))
