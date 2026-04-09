@@ -52,7 +52,7 @@ async def create_booking(body: BookingIn):
         await publish_booking(payload)
     except Exception as e:
         logger.error("Error al publicar evento de reserva: %s", e)
-        raise HTTPException(status_code=503, detail="Servicio no disponible")
+        raise HTTPException(status_code=503, detail="503 Servicio no disponible")
 
     await r.aclose()
     return BookingCreated(booking_id=booking_id, status="REQUESTED")
