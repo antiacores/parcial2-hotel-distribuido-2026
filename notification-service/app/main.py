@@ -66,6 +66,10 @@ def main() -> None:
     # TODO 3: iniciar el consumer con channel.basic_consume(...) usando ack
     # manual y luego channel.start_consuming().
 
+    channel.basic_consume(queue="notifications", on_message_callback=callback, auto_ack=False)
+    logger.info("notification-service iniciando, esperando eventos de pago...")
+    channel.start_consuming()
+
     logger.info("notification-service iniciado, pero los TODOs no están resueltos todavía")
     # Mientras los TODOs no se resuelvan, este servicio no consume nada.
     # Reemplaza este loop infinito con tu lógica.
