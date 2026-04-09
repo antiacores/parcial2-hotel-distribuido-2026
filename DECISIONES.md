@@ -40,6 +40,17 @@ Desactivé auto_ack e hice el manejo manual de ACK usando basic_ack cuando el pr
 **Por qué esto era un problema:**
 Porque si el servicio fallaba mientras se procesaba, entonces el mensaje ya era considerado como entregado y por lo tanto, se perdía. Generaba inconsistencias en el sistema. Con ACK manual los mensajes solo se confirman cuando fueron procesados correctamente.
 
+### B4 — Detección de traslape de fechas
+**Qué encontré:**
+El availability-service utilizaba una validación incorrecta para detectar problemas en las reservas, solo comparaba únicamente "check_in == check_in." Esto solo detectaba coincidencias de fechas y no identificaba superposiciones.
+
+**Cómo lo arreglé:**
+Reemplacé la condición por una validación correcta de traslape de fechas utilizando la lógica:
+´check_in < check_out AND check_out > check_in´
+Esto se implementó en la función find_available_room.
+
+**Por qué esto era un problema:**
+Porque se podía hacer reservas con fechas superpuestas en la misma habitación, generaba incosistencias. Ahora se dectanta todos los casos de superposición y se evita asignar habitacones ocupadas.
 ---
 
 ### B6 — Credenciales en env vars
