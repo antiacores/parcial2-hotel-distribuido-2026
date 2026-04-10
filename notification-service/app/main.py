@@ -70,13 +70,5 @@ def main() -> None:
     logger.info("notification-service iniciando, esperando eventos de pago...")
     channel.start_consuming()
 
-    logger.info("notification-service iniciado, pero los TODOs no están resueltos todavía")
-    # Mientras los TODOs no se resuelvan, este servicio no consume nada.
-    # Reemplaza este loop infinito con tu lógica.
-    import time
-    while True:
-        time.sleep(60)
-
-
 if __name__ == "__main__":
     main()
