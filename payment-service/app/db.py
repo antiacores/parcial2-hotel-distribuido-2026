@@ -7,12 +7,25 @@
 # Mira availability-service/app/db.py para ver cómo se construye la URL
 # leyendo POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB, etc. con os.getenv().
 # Las variables ya están en .env.example.
-DATABASE_URL = "postgresql+asyncpg://hotel_user:hotel_pass@postgres:5432/hotel_db"
+import os
 
+
+#B6 - Se eliminaron credenciales hardcodeadas y se construye la URL de conexión a Postgres leyendo las variables de entorno.
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy import Integer, String
 from sqlalchemy.orm import Mapped, mapped_column
+
+POSTGRES_USER = os.getenv("POSTGRES_USER")
+POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD")
+POSTGRES_DB = os.getenv("POSTGRES_DB")
+POSTGRES_HOST = os.getenv("POSTGRES_HOST", "postgres")
+POSTGRES_PORT = os.getenv("POSTGRES_PORT", "5432")
+
+DATABASE_URL = (
+    f"postgresql+asyncpg://{POSTGRES_USER}:{POSTGRES_PASSWORD}"
+    f"@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}"
+)
 
 
 class Base(DeclarativeBase):
