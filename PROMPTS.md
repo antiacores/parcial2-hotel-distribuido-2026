@@ -43,21 +43,22 @@ Listen los 3-5 prompts más importantes que escribieron y para qué los usaron.
    **Quién lo usó:** Integrante 1 (Antía)
    **Qué tan útil fue:** 4
 
-4. **Prompt:** ...
-   **Para qué:** ...
-   **Quién lo usó:** Integrante 1 / Integrante 2
-   **Qué tan útil fue:** (1-5)
+4. **Prompt:** ¿Por qué se procesa dos veces el mismo booking_id si se reintenta el mensaje?"
+   **Para qué:** Entender el porqué de los cobros duplicados y poder detectar el problema de idempotencia
+   **Quién lo usó:** Integrante 2 (Fernando)
+   **Qué tan útil fue:** 5
 
-5. **Prompt:** ...
-   **Para qué:** ...
-   **Quién lo usó:** Integrante 1 / Integrante 2
-   **Qué tan útil fue:** (1-5)
+5. **Prompt:** "¿Cómo hago para que RabbitMQ no procesa dos veces el mismo mensaje?"
+   **Para qué:** Validar que la solución realmente funciona
+   **Quién lo usó:** Integrante 2
+   **Qué tan útil fue:** 4
 
 ### ¿En qué partes los apoyó?
 
 - Explicación del comportamiento de ´auto_ack´ y cuándo usar ´basic_nack´
 - Sintaxis de manejo de excepciones en FastAPI
 - Confirmar el patrón de doble binding en pika para el notification-service
+- Principalmente en payment-service, porque no entendía completamente cómo hacerlo idempotente ni el problema de RabbitMQ del reprocesamiento de eventos. 
 
 ### ¿Hubo cosas en las que la IA dio respuestas incorrectas o que tuvieron que corregir?
 (Ser honestos aquí suma puntos de criterio)
