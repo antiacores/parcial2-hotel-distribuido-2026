@@ -107,7 +107,7 @@ def main() -> None:
     params = pika.URLParameters(RABBITMQ_URL)
     connection = pika.BlockingConnection(params)
     channel = connection.channel()
-    channel.exchange_declare(exchange="hotel", exchange_type="topic")
+    channel.exchange_declare(exchange="hotel", exchange_type="topic", durable="True")
     result = channel.queue_declare(queue="availability.requests", durable=False)
     channel.queue_bind(exchange="hotel", queue=result.method.queue, routing_key="booking.requested")
 
