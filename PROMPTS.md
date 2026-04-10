@@ -43,7 +43,7 @@ Listen los 3-5 prompts más importantes que escribieron y para qué los usaron.
    **Quién lo usó:** Integrante 1 (Antía)
    **Qué tan útil fue:** 4
 
-4. **Prompt:** ¿Por qué se procesa dos veces el mismo booking_id si se reintenta el mensaje?"
+4. **Prompt:** ¿Por qué se procesa dos veces el mismo booking_id si se reintenta el mensaje?
    **Para qué:** Entender el porqué de los cobros duplicados y poder detectar el problema de idempotencia
    **Quién lo usó:** Integrante 2 (Fernando)
    **Qué tan útil fue:** 5
