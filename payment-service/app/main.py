@@ -69,7 +69,7 @@ async def callback(message: aio_pika.IncomingMessage) -> None:
         connection = await aio_pika.connect_robust(RABBITMQ_URL)
         async with connection:
             channel = await connection.channel()
-            exchange = await channel.declare_exchange("hotel", aio_pika.ExchangeType.TOPIC, durable=True)
+            exchange = await channel.declare_exchange("hotel", aio_pika.ExchangeType.TOPIC)
             event = {
                 **payload,
                 "event": "PAYMENT_COMPLETED" if success else "PAYMENT_FAILED",
@@ -87,7 +87,7 @@ async def main() -> None:
     await init_db()
     connection = await aio_pika.connect_robust(RABBITMQ_URL)
     channel = await connection.channel()
-    exchange = await channel.declare_exchange("hotel", aio_pika.ExchangeType.TOPIC)
+    exchange = await channel.declare_exchange("hotel", aio_pika.ExchangeType.TOPIC, durable=True)
     queue = await channel.declare_queue("payment.requests", durable=False)
     await queue.bind(exchange, routing_key="booking.confirmed")
     logger.info("payment-service esperando booking.confirmed...")
