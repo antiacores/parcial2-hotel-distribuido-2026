@@ -117,3 +117,31 @@ Ver `RUBRICA.md`. Resumen:
 - **30 pts** — Commits + evidencia + INTEGRANTES.md + DECISIONES.md + PROMPTS.md
 
 ¡Mucho éxito! El examen está calibrado para que con esfuerzo razonable la pareja saque una buena nota.
+
+## Cambios realizados por el equipo
+
+### Bugs corregidos
+
+**B1 — Routing key incorrecto (`booking-api`):** El publisher usaba `booking.create` en lugar de `booking.requested`, por lo que ningún mensaje llegaba al `availability-service`. Corregido en `booking-api/app/rabbitmq.py`.
+
+**B2 — Manejo de error en publish (`booking-api`):** Si RabbitMQ fallaba, el endpoint devolvía `202` aunque el evento nunca se publicó. Se agregó `try/except` que devuelve `503` y loggea el error. Corregido en `booking-api/app/main.py`.
+
+**B3 — `auto_ack=True` en `availability-service`:** El consumer confirmaba los mensajes antes de procesarlos, lo que causaba pérdida de mensajes si el servicio crasheaba. Cambiado a ack manual con `basic_ack` al finalizar correctamente y `basic_nack` con `requeue=True` en caso de error.
+
+**B4 — Lógica de overlap de fechas incompleta:** La función `is_room_available` no detectaba correctamente reservas solapadas. Se implementó la condición correcta: `check_in < existing_check_out AND check_out > existing_check_in`.
+
+**B5 — Race condition sin `with_for_update()`:** Dos requests simultáneos podían reservar la misma habitación. Se agregó lock a nivel de base de datos con `with_for_update()` dentro de la transacción.
+
+**B6 — Credenciales hardcodeadas en `payment-service`:** La URL de Postgres estaba en el código fuente. Se reemplazó con `os.getenv()` leyendo desde variables de entorno.
+
+**B7 — `payment-service` no idempotente:** Si RabbitMQ reentregaba un mensaje, el pago se procesaba dos veces. Se agregó tabla `processed_events` para ignorar eventos ya procesados.
+
+### Servicio nuevo
+
+**`notification-service` completado:** Se implementaron los 3 TODOs del skeleton: declaración del exchange `hotel` (durable, topic), binding de la queue `notifications` a `payment.completed` y `payment.failed`, callback con log estructurado en el formato requerido, y consumer con ack manual.
+
+**`notification-service` agregado a `docker-compose.yml`:** Con build, env_file, restart on-failure y depends_on con healthcheck de RabbitMQ.
+
+### Mejoras (Tier 3)
+
+**Healthchecks:** Se agregaron healthchecks a los 4 servicios de aplicación (`booking-api`, `availability-service`, `payment-service`, `notification-service`) en `docker-compose.yml`.
