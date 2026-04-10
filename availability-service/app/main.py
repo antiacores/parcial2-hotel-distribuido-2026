@@ -41,8 +41,10 @@ def find_available_room(room_type: str, check_in: date, check_out: date) -> Room
         # check_in < check_out AND check_out > check_in para poder detectar superposiciones.
         # Esto ayudar a evitar todos los casos y se evita que se asignen habitaciones que ya están ocupadas
 
+
+        # FIX B5 — Se usa with_for_update() para bloquear las filas durante la consulta y evitar que múltiples procesos podrían reservar la misma habitación al mismo tiempo.
             conflicts = (
-                session.query(Booking)
+                session.query(Booking).with_for_update()
                 .filter(
                     Booking.room_id == room.id,
                     Booking.status == "CONFIRMED",
