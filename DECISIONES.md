@@ -76,6 +76,14 @@ Esto se implementó en la función find_available_room.
 Porque se podía hacer reservas con fechas superpuestas en la misma habitación, generaba incosistencias. Ahora se dectanta todos los casos de superposición y se evita asignar habitacones ocupadas.
 
 ### B5 — Race condition con `with_for_update()`
+**Qué encontré:**
+Se hacían dos operaciones continuas: primero se consultaba disponibilidad y luego reserva. Antes, se podía que más de un consumer viera la habitación como disponible e insertarlos
+
+**Cómo lo arreglé:**
+Se agregó .with_for_update() en la query que valida conflictos dentro de find_available_room, bloqueando las filas relevantes durante la transacción.
+
+**Por qué esto era un problema:**
+Permitía que múltiples reservas pudieran confirmarse para la misma habitación y fecha. Con el bloqueo, se garantiza consistencia.
 
 ### B7 — Idempotencia
 
