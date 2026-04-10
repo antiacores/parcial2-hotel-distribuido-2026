@@ -6,47 +6,66 @@
 
 ## ¿Usaron IA?
 
-- [ ] Sí
+- [x] Sí
 - [ ] No
 
 ## ¿Quién la usó?
 
 - [ ] Integrante 1
 - [ ] Integrante 2
-- [ ] Ambos
+- [x] Ambos
 
 ---
 
 ## Si la respuesta es "Sí":
 
 ### Herramientas usadas
-(Ej: Claude.ai, ChatGPT-4, GitHub Copilot, Cursor, etc.)
+Claude.ai
+ChatGPT-5.3
 
 -
 
 ### Prompts principales
 Listen los 3-5 prompts más importantes que escribieron y para qué los usaron.
 
-1. **Prompt:** ...
+1. **Prompt:** "¿Qué significa auto_ack=True en pika y cuál es el riesgo de usarlo?"
+   **Para qué:** Entender conceptualmente el bug B3 antes de arreglarlo.
+   **Quién lo usó:** Integrante 1 (Antía)
+   **Qué tan útil fue:** 4
+
+2. **Prompt:** "¿Cómo se hace un try/except en un endpoint de FastAPI para devolver un HTTPException con status 503?"
+   **Para qué:** Recordar la sintaxis correcta para el manejo de errores en FastAPI (B2).
+   **Quién lo usó:** Integrante 1 (Antía)
+   **Qué tan útil fue:** 3
+
+3. **Prompt:** "¿Cómo bindear una queue a dos routing keys distintos en pika?"
+   **Para qué:** Confirmar que se pueden hacer dos llamadas a queue_bind sobre la misma queue para payment.completed y payment.failed.
+   **Quién lo usó:** Integrante 1 (Antía)
+   **Qué tan útil fue:** 4
+
+4. **Prompt:** ...
    **Para qué:** ...
    **Quién lo usó:** Integrante 1 / Integrante 2
    **Qué tan útil fue:** (1-5)
 
-2. **Prompt:** ...
+5. **Prompt:** ...
    **Para qué:** ...
    **Quién lo usó:** Integrante 1 / Integrante 2
    **Qué tan útil fue:** (1-5)
 
 ### ¿En qué partes los apoyó?
-(Ej: explicación de `with_for_update()`, generación de boilerplate del notification-service, debugging de un error de aio-pika...)
 
--
+- Explicación del comportamiento de ´auto_ack´ y cuándo usar ´basic_nack´
+- Sintaxis de manejo de excepciones en FastAPI
+- Confirmar el patrón de doble binding en pika para el notification-service
 
 ### ¿Hubo cosas en las que la IA dio respuestas incorrectas o que tuvieron que corregir?
 (Ser honestos aquí suma puntos de criterio)
 
--
+- Sugirió usar ´basic_ack´ en el bloque ´except´ del callback, lo cual sería incorrecto porque estaría confirmando un mensaje que no se procesó bien. Se corrigió a ´basic_nack´ con ´requeue=True´.
 
 ### ¿Qué decidieron hacer manualmente sin IA y por qué?
 
--
+- La lectura del código fuente y la identificación de cada bug se hizo manualmente revisando los comentarios ´# BUG:´ directamente en el repo.
+- Los commits, ramas y flujo de Git se manejaron manualmente.
+- La documentación en ´DECISIONES.md´ se redactó con palabras propias para reflejar el razonamiento real detrás de cada cambio.
