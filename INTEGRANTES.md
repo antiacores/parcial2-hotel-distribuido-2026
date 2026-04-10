@@ -37,7 +37,8 @@
 | Logs end-to-end | | |
 | `DECISIONES.md` | Fernando | Antía |
 | `PROMPTS.md` | Antía | Fernando |
-| (otro) | | |
+| Healthchecks | Antía | - |
+| Mejoras al `README.md` | Antía | - |
 
 ---
 
@@ -51,9 +52,15 @@
 - notification-service: Completé los 3 TODOs (declaración del exchange, implementación del callback con log estructurado y arranque del consumer con ack manual)
 - docker-compose: Agregué el servicio de las notificaciones (notification-service).
 - Redacción: Redacté DECISIONES.md y PROMPTS.md
+- Tier 3: Añadí los healthchecks a los servicios que no tenían y añadí todos los cambios realizados en el README.
 
 ### Lo que hizo Integrante 2
-
+- B3: Configuré el ACK manualmente para confirmar mensajes solo después de haber sido procesados correctamente.
+- B4: Hice la validación para poder evitar reservas con las mismas fechas en la misma habitación
+- B5: Agregué bloqueo a nivel de base de datos en la consulta de disponibilidad, evitando que múltiples procesos reserven la misma habitación simultáneamente.
+- B6: La configuración de conexión a la base datos ahora es mediante variables de entorno para mejorar la seguridad.
+- B7: Se implementó idempotencia creando una tabla "processed_events" para poder evitar que un mismo evento sea procesado más de una vez y evitar cobros duplicados.
+- Redacción: Redacté DECISIONES.md y PROMPTS.md
 
 ---
 
