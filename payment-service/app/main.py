@@ -69,7 +69,7 @@ async def callback(message: aio_pika.IncomingMessage) -> None:
         connection = await aio_pika.connect_robust(RABBITMQ_URL)
         async with connection:
             channel = await connection.channel()
-            exchange = await channel.declare_exchange("hotel", aio_pika.ExchangeType.TOPIC)
+            exchange = await channel.declare_exchange("hotel", aio_pika.ExchangeType.TOPIC, durable=True)
             event = {
                 **payload,
                 "event": "PAYMENT_COMPLETED" if success else "PAYMENT_FAILED",
