@@ -35,8 +35,8 @@
 | `notification-service` en docker-compose | Antía | - |
 | Capturas de RabbitMQ | | |
 | Logs end-to-end | | |
-| `DECISIONES.md` | | |
-| `PROMPTS.md` | | |
+| `DECISIONES.md` | Fernando | Antía |
+| `PROMPTS.md` | Antía | Fernando |
 | (otro) | | |
 
 ---
@@ -46,7 +46,11 @@
 > Llenen esto al terminar. Una o dos frases por integrante explicando qué cosas hicieron principalmente. La idea no es competir, es que quede claro que ambos participaron.
 
 ### Lo que hizo Integrante 1
-
+- B1: Corregí el routing_key de ´booking.created´ a ´booking.requested´.
+- B2: Agregué manejo de errores con un ´try/except´ para devolver 503 si falla el publish a RabbitMQ.
+- notification-service: Completé los 3 TODOs (declaración del exchange, implementación del callback con log estructurado y arranque del consumer con ack manual)
+- docker-compose: Agregué el servicio de las notificaciones (notification-service).
+- Redacción: Redacté DECISIONES.md y PROMPTS.md
 
 ### Lo que hizo Integrante 2
 
