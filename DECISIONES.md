@@ -55,7 +55,6 @@ Porque se compromete la seguridad del sistema al exponer las credenciales. Con v
 ---
 
 ## notification-service completado
-
 **Qué TODOs había:**
 Declarar el exchange y bindear la queue, implementar el callback de procesamiento, e iniciar el consumer.
 
@@ -110,12 +109,21 @@ RabbitMQ trabaja con entrega "al menos una vez", por eso un evento puede ser pro
 
 ## Bonus que implementé (si aplica)
 
+- Healthchecks para todos los servicios en ´docker-compose.yml´: se agregaron checks a ´booking-api´, ´availability-service´, ´payment-service´ y ´notification-service´.
+- Mejoras al README explicando todos los cambios realizados por el equipo: bugs corregidos, servicio completado y mejoras de calidad.
+
 ---
 
 ## Cosas que decidí NO hacer
 
-(Ej: "no agregué tests porque preferí enfocarme en el flujo end-to-end", "no implementé saga porque no me dio tiempo", etc.)
+- No implementamos la saga compensatoria porque priorizamos tener el flujo end-to-end funcionando correctamente y los healthchecks, y el tiempo disponible no nos alcanzó para implementarla sin arriesgar la estabilidad del sistema.
+- No agregamos tests con pytest porque la verificación manual del flujo end-to-end fue suficiente para validar el comportamiento correcto de cada servicio dentro del tiempo.
+- No agregamos logs estructurados en JSON porque el formato de log requerido por la rúbrica ya estaba cubierto con el logger estándar.
 
 ---
 
 ## Si tuviera más tiempo, lo siguiente que mejoraría sería:
+
+- Implementaríamos la saga compensatoria para que cuando ´payment.failed´ ocurra, la habitación quede liberada automáticamente en lugar de quedar bloqueada para siempre.
+- Agregaríamos logs estructurados en JSON para facilitar la observabilidad y el monitoreo en producción.
+- Escribiríamos tests unitarios para funciones puras como ´is_room_available´ para validar los casos de overlap de fechas de forma automatizada.
