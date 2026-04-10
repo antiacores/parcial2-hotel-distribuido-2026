@@ -94,6 +94,17 @@ Se agregó .with_for_update() en la query que valida conflictos dentro de find_a
 Permitía que múltiples reservas pudieran confirmarse para la misma habitación y fecha. Con el bloqueo, se garantiza consistencia.
 
 ### B7 — Idempotencia
+**Qué encontré:**
+Payment-service no era idempotente. Si RabbitMQ reentregaba un evento booking.confirmed, el mismo booking_id se procesaba nuevamente, generando cobros duplicados.
+
+**Cómo lo arreglé:**
+Se creó una tabla processed_events con event_id como clave primaria.
+Antes de procesar el pago, se intenta insertar el booking_id en esta tabla:
+Si el insert es exitoso entonces el evento no ha sido procesado y se continúa con el cobro.
+Si falla entonces el evento ya fue procesado y se ignora el cobro
+
+**Por qué esto era un problema:**
+RabbitMQ trabaja con entrega "al menos una vez", por eso un evento puede ser procesado varias veces. Sin idempotencia, hay muchos peligros como cobros duplicados e inconsistencia. Ahora, se garantiza que booking_id se procese una sola vez.
 
 ---
 
