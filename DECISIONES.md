@@ -40,7 +40,30 @@ Desactivé auto_ack e hice el manejo manual de ACK usando basic_ack cuando el pr
 **Por qué esto era un problema:**
 Porque si el servicio fallaba mientras se procesaba, entonces el mensaje ya era considerado como entregado y por lo tanto, se perdía. Generaba inconsistencias en el sistema. Con ACK manual los mensajes solo se confirman cuando fueron procesados correctamente.
 
-### B4 — Detección de traslape de fechas
+---
+
+### B6 — Credenciales en env vars
+
+---
+
+## notification-service completado
+
+**Qué TODOs había:**
+Declarar el exchange y bindear la queue, implementar el callback de procesamiento, e iniciar el consumer.
+
+**Cómo los implementé:**
+- TODO 1: Declaré el exchange ´hotel´ de tipo topic, creé la queue ´notifications´ y la bindeé para ´payment.completed´ y para ´payment.failed´.
+- TODO 2: Implementé el callback que parsea el JSON del mensaje, extrae ´booking_id´y ´guest´, convierte el routing_key a mayúsculas para obtener el nombre del evento, y loggea con el formato requerido.
+- TODO 3: Inicié el consumer con ´basic_consume´ usando ´auto_ack=False´ para el ack manual, seguido de ´start_consuming´.
+
+**Decisiones de diseño que tomé:**
+Usé ´method.routing_key.upper().replace(".", "_")´ para derivar el nombre del evento directamente del routing key.
+
+---
+
+## Bugs arreglados (Tier 2)
+
+### B4 — Overlap de fechas
 **Qué encontré:**
 El availability-service utilizaba una validación incorrecta para detectar problemas en las reservas, solo comparaba únicamente "check_in == check_in." Esto solo detectaba coincidencias de fechas y no identificaba superposiciones.
 
@@ -51,25 +74,6 @@ Esto se implementó en la función find_available_room.
 
 **Por qué esto era un problema:**
 Porque se podía hacer reservas con fechas superpuestas en la misma habitación, generaba incosistencias. Ahora se dectanta todos los casos de superposición y se evita asignar habitacones ocupadas.
----
-
-### B6 — Credenciales en env vars
-
----
-
-## notification-service completado
-
-**Qué TODOs había:**
-
-**Cómo los implementé:**
-
-**Decisiones de diseño que tomé:**
-
----
-
-## Bugs arreglados (Tier 2)
-
-### B4 — Overlap de fechas
 
 ### B5 — Race condition con `with_for_update()`
 
