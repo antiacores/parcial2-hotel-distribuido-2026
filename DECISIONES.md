@@ -43,6 +43,14 @@ Porque si el servicio fallaba mientras se procesaba, entonces el mensaje ya era 
 ---
 
 ### B6 — Credenciales en env vars
+**Qué encontré:**
+La URL de conexión a Postgres tenía credenciales hardcodeadas en el código, lo cual es un problema de seguridad ya que es información sensible para cualquiera que entre al proyecto.
+
+**Cómo lo arreglé:**
+Se eliminó la URL y se reemplazó por variables de entorno mediante os.getenv().
+
+**Por qué esto era un problema:**
+Porque se compromete la seguridad del sistema al exponer las credenciales. Con variables de entorno, la configuración se vuelve flexible y segura.
 
 ---
 
