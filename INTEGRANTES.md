@@ -33,8 +33,8 @@
 | B7 — idempotencia en payment-service | Fernando | - |
 | `notification-service` (TODOS) | Antía | - |
 | `notification-service` en docker-compose | Antía | - |
-| Capturas de RabbitMQ | | |
-| Logs end-to-end | | |
+| Capturas de RabbitMQ | Antía | - |
+| Logs end-to-end | Antía | - |
 | `DECISIONES.md` | Fernando | Antía |
 | `PROMPTS.md` | Antía | Fernando |
 | (otro) | | |
