@@ -17,7 +17,8 @@ async def publish_booking(payload: dict) -> None:
     async with connection:
         channel = await connection.channel()
         exchange = await channel.declare_exchange(
-            "hotel", aio_pika.ExchangeType.TOPIC
+            "hotel", aio_pika.ExchangeType.TOPIC,
+            durable=True
         )
         message = aio_pika.Message(
             body=json.dumps(payload).encode(),
