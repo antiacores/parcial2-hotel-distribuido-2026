@@ -38,7 +38,7 @@ async def process_event(payload: dict) -> tuple[bool, str]:
     # y tratar de insertarlo al inicio; si ya existe, saltar el cobro.
 
     async with SessionLocal() as session:
-        # 🔴 INTENTO DE IDEMPOTENCIA
+        # INTENTO DE IDEMPOTENCIA
         try:
             session.add(ProcessedEvent(event_id=booking_id))
             await session.commit()
